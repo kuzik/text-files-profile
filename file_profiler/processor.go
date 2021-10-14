@@ -11,7 +11,7 @@ func ProcessStats(stats <-chan FileStat) []RowStat {
 				})
 			} else {
 				rowStats[rowNumber].count++
-				rowStats[rowNumber].sum += rowStats[rowNumber].sum + rowLength
+				rowStats[rowNumber].sum += rowLength
 			}
 		}
 	}

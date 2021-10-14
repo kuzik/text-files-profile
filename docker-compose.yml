@@ -4,5 +4,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      GOOS: ${GOOS}
+      GOARCH: ${GOARCH}
+      BIN_FILE_NAME: ${BIN_FILE_NAME}
     volumes:
       - .:/app
