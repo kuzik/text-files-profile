@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  folder-profiller:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
