@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"github.com/kuzik/text-files-profile/file_profiler"
 	"os"
-	"strings"
 )
 
 func main() {
@@ -13,15 +11,14 @@ func main() {
 		panic("Missed required parameter")
 	}
 
-	profile, err := file_profiler.Profile(dir)
+	profiler := file_profiler.NewProfiler(
+		&file_profiler.Collector{},
+		&file_profiler.Processor{},
+	)
+	profile, err := profiler.Profile(dir)
 	if err != nil {
 		panic("Error during profiling process")
 	}
 
-	for rowNumber, row := range profile {
-		if rowNumber == 0 {
-			continue
-		}
-		fmt.Printf("%v: %s\n", rowNumber, strings.Repeat("*", row.Len()))
-	}
+	profiler.PrintProfile(profile)
 }

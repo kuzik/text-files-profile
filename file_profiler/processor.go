@@ -1,6 +1,9 @@
 package file_profiler
 
-func ProcessStats(stats <-chan FileStat) []RowStat {
+type Processor struct {
+}
+
+func (p Processor) ProcessStats(stats <-chan FileStat) []RowStat {
 	rowStats := make([]RowStat, 1)
 	for fileStat := range stats {
 		for rowNumber, rowLength := range fileStat {

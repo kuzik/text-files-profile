@@ -3,13 +3,15 @@ package file_profiler
 import (
 	"bufio"
 	"io/ioutil"
-	"log"
 	"os"
 	"sync"
 	"unicode/utf8"
 )
 
-func CollectStat(dir string) <-chan FileStat {
+type Collector struct {
+}
+
+func (c Collector) CollectStat(dir string) <-chan FileStat {
 
 	stats := make(chan FileStat)
 
@@ -19,9 +21,9 @@ func CollectStat(dir string) <-chan FileStat {
 		for _, item := range items {
 			wg.Add(1)
 			if item.IsDir() {
-				go collectDirStat(stats, &wg, dir+"/"+item.Name())
+				go c.collectDirStat(stats, &wg, dir+"/"+item.Name())
 			} else {
-				go collectFileStat(stats, &wg, dir+"/"+item.Name())
+				go c.collectFileStat(stats, &wg, dir+"/"+item.Name())
 			}
 		}
 
@@ -32,24 +34,21 @@ func CollectStat(dir string) <-chan FileStat {
 	return stats
 }
 
-func collectDirStat(stats chan<- FileStat, wg *sync.WaitGroup, dir string) {
+func (c Collector) collectDirStat(stats chan<- FileStat, wg *sync.WaitGroup, dir string) {
 	items, _ := ioutil.ReadDir(dir)
 	for _, item := range items {
 		wg.Add(1)
 		if item.IsDir() {
-			go collectDirStat(stats, wg, dir+"/"+item.Name())
+			go c.collectDirStat(stats, wg, dir+"/"+item.Name())
 		} else {
-			go collectFileStat(stats, wg, dir+"/"+item.Name())
+			go c.collectFileStat(stats, wg, dir+"/"+item.Name())
 		}
 	}
 	defer wg.Done()
 }
 
-func collectFileStat(stats chan<- FileStat, wg *sync.WaitGroup, filePath string) {
-	file, err := os.Open(filePath)
-	if err != nil {
-		log.Fatal(err)
-	}
+func (c Collector) collectFileStat(stats chan<- FileStat, wg *sync.WaitGroup, filePath string) {
+	file, _ := os.Open(filePath)
 	defer file.Close()
 
 	fileStat := make(FileStat, 1)
