@@ -9,12 +9,14 @@ func (p Processor) ProcessStats(stats <-chan FileStat) []RowStat {
 		for rowNumber, rowLength := range fileStat {
 			if len(rowStats) <= rowNumber || len(rowStats) == 0 {
 				rowStats = append(rowStats, RowStat{
-					sum:   rowLength,
-					count: 1,
+					Sum:   rowLength,
+					Count: 1,
 				})
 			} else {
-				rowStats[rowNumber].count++
-				rowStats[rowNumber].sum += rowLength
+				if rowLength != 0 {
+					rowStats[rowNumber].Count++
+				}
+				rowStats[rowNumber].Sum += rowLength
 			}
 		}
 	}

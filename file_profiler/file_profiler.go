@@ -7,15 +7,15 @@ import (
 
 type FileStat []int
 type RowStat struct {
-	sum   int
-	count int
+	Sum   int
+	Count int
 }
 
 func (row RowStat) Len() int {
-	if row.count == 0 {
+	if row.Count == 0 {
 		return 0
 	}
-	return row.sum / row.count
+	return row.Sum / row.Count
 }
 
 type Collectable interface {
