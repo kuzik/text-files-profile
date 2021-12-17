@@ -1,19 +1,18 @@
-package file_profiler_test
+package profiler_test
 
 import (
-	"github.com/kuzik/text-files-profile/file_profiler"
+	"github.com/kuzik/text-files-profile/profiler"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestNewProfiler(t *testing.T) {
-
-	profiler := file_profiler.NewProfiler(
-		file_profiler.Collector{},
-		file_profiler.Processor{},
+	prof := profiler.NewProfiler(
+		profiler.Collector{Extensions: []string{".txt"}},
+		profiler.Processor{},
 	)
 
-	assert.IsType(t, &file_profiler.Profiler{}, profiler)
+	assert.IsType(t, &profiler.Profiler{}, prof)
 }
 
 func TestRowStat_Len(t *testing.T) {
@@ -31,7 +30,7 @@ func TestRowStat_Len(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			rowStat := file_profiler.RowStat{
+			rowStat := profiler.RowStat{
 				Sum:   tt.sum,
 				Count: tt.count,
 			}

@@ -1,4 +1,4 @@
-package file_profiler
+package profiler
 
 type Processor struct {
 }

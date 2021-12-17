@@ -1,4 +1,4 @@
-package file_profiler
+package profiler
 
 import (
 	"fmt"
