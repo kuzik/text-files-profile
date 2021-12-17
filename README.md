@@ -6,7 +6,14 @@
 - [ ] Exclude folders support
 - [ ] Benchmarks
 - [x] Async reader
-- [ ] Exclude dir and file pattern
+- [x] Extension filter
 - [ ] Logger:
   - [ ] File logger
-  - [ ] Console logger
+  - [x] Console logger
+
+
+## Build
+`docker-compose up`
+
+## Run
+`bin/app-darwin -dir=/base/dir -extension=.go,.txt`
